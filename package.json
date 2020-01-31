@@ -1,0 +1,60 @@
+{
+  "name": "premierleaguereplicaapp",
+  "version": "1.0.0",
+  "description": "A replica of the Premier League App. Gives you team and fixture info",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node index.js",
+    "dev": "DEBUG=dev nodemon --exec babel-node .",
+    "refreshDb": "babel-node config/refreshDb.js refreshDb",
+    "mainTest": "cross-env NODE_ENV=test npm run refreshDb && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VictorMaria/premierLeagueReplicaApp.git"
+  },
+  "keywords": [
+    "Premier",
+    "League"
+  ],
+  "author": "VictorMaria Ajayi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VictorMaria/premierLeagueReplicaApp/issues"
+  },
+  "homepage": "https://github.com/VictorMaria/premierLeagueReplicaApp#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/node": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/register": "^7.7.0",
+    "concurrently": "^5.0.0",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "jest": "^25.1.0",
+    "nodemon": "^1.19.4"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.7.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "config": "^3.2.4",
+    "cors": "^2.8.5",
+    "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.2.0",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb-client-encryption": "^1.0.1",
+    "mongoose": "^5.7.11",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "request": "^2.88.0"
+  }
+}
