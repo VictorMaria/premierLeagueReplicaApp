@@ -97,5 +97,54 @@ describe('admin sign up', () => {
         expect(res.statusCode).toEqual(409);
         expect(res.body.errors.message).toEqual('User already exists');
         done();
+      });  
+  });
+describe('Admin sign in', () => {
+    it('should return an error for missing email', async (done) => {
+      const res = await request(app)
+        .post(`${ApiPrefix}/admin/signin`)
+        .send(missingEmail)
+      expect(res.statusCode).toEqual(400);
+      expect(res.body.errors.email).toEqual('Email is required');
+      done();
+    });
+    it('should return an error for missing password', async (done) => {
+      const res = await request(app)
+        .post(`${ApiPrefix}/admin/signin`)
+        .send(missingPassword)
+      expect(res.statusCode).toEqual(400);
+      expect(res.body.errors.password).toEqual('Password is required');
+      done();
+    });
+    it('should return an error for wrong email', async (done) => {
+        const res = await request(app)
+          .post(`${ApiPrefix}/admin/signin`)
+          .send(wrongSignInEmail)
+        expect(res.statusCode).toEqual(401);
+        expect(res.body.errors.message).toEqual('Incorrect Credentials');
+        done();
+      });
+      it('should return an error for wrong password', async (done) => {
+        const res = await request(app)
+          .post(`${ApiPrefix}/admin/signin`)
+          .send(wrongSignInPassword)
+        expect(res.statusCode).toEqual(401);
+        expect(res.body.errors.message).toEqual('Incorrect Credentials');
+        done();
+      });
+    it('should sign in an admin with the complete and correct details', async (done) => {
+        const res = await request(app)
+          .post(`${ApiPrefix}/admin/signin`)
+          .send(correctDetails)
+          const decoded = jwtDecode(res.body.user.token);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.user).toHaveProperty('token');
+        expect(decoded).toHaveProperty('id');
+        expect(decoded.firstName).toEqual(correctDetails.firstName);
+        expect(decoded.lastName).toEqual(correctDetails.lastName);
+        expect(decoded.email).toEqual(correctDetails.email);
+        expect(decoded).toHaveProperty('avatar');
+        expect(decoded.userType).toEqual('admin');
+        done()
       });
   });
