@@ -1,6 +1,6 @@
 import request from 'supertest';
 import jwtDecode from 'jwt-decode';
-import app from '../index';
+import app from '../sampleApp';
 import mockerUsers from '../helpers/mockData/mockUsers';
  
 const {
