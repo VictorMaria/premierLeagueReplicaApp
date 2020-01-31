@@ -6,6 +6,7 @@
   "scripts": {
     "start": "babel-node index.js",
     "dev": "DEBUG=dev nodemon --exec babel-node .",
+    "test": "jest",
     "refreshDb": "babel-node config/refreshDb.js refreshDb",
     "mainTest": "cross-env NODE_ENV=test npm run refreshDb && npm test"
   },
@@ -37,7 +38,8 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^25.1.0",
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.19.4",
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
@@ -48,9 +50,10 @@
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-validator": "^6.2.0",
+    "express-validator": "^6.3.1",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
     "mongodb-client-encryption": "^1.0.1",
     "mongoose": "^5.7.11",
     "passport": "^0.4.1",
