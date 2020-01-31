@@ -99,3 +99,53 @@ describe('User sign up', () => {
       done();
     });
   });
+
+  describe('User sign in', () => {
+    it('should return an error for missing email', async (done) => {
+      const res = await request(app)
+        .post(`${ApiPrefix}/auth/signin`)
+        .send(missingEmail)
+      expect(res.statusCode).toEqual(400);
+      expect(res.body.errors.email).toEqual('Email is required');
+      done();
+    });
+    it('should return an error for missing password', async (done) => {
+      const res = await request(app)
+        .post(`${ApiPrefix}/auth/signin`)
+        .send(missingPassword)
+      expect(res.statusCode).toEqual(400);
+      expect(res.body.errors.password).toEqual('Password is required');
+      done();
+    });
+    it('should return an error for wrong email', async (done) => {
+      const res = await request(app)
+        .post(`${ApiPrefix}/auth/signin`)
+        .send(wrongSignInEmail)
+      expect(res.statusCode).toEqual(401);
+      expect(res.body.errors.message).toEqual('Incorrect Credentials');
+      done();
+    });
+    it('should return an error for wrong password', async (done) => {
+      const res = await request(app)
+        .post(`${ApiPrefix}/auth/signin`)
+        .send(wrongSignInPassword)
+      expect(res.statusCode).toEqual(401);
+      expect(res.body.errors.message).toEqual('Incorrect Credentials');
+      done();
+    });
+    it('should sign in a user with the complete and correct details', async (done) => {
+        const res = await request(app)
+          .post(`${ApiPrefix}/auth/signin`)
+          .send(correctDetails)
+          const decoded = jwtDecode(res.body.user.token);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.user).toHaveProperty('token');
+        expect(decoded).toHaveProperty('id');
+        expect(decoded.firstName).toEqual(correctDetails.firstName);
+        expect(decoded.lastName).toEqual(correctDetails.lastName);
+        expect(decoded.email).toEqual(correctDetails.email);
+        expect(decoded).toHaveProperty('avatar');
+        expect(decoded.userType).toEqual('user');
+        done()
+      });
+    });
