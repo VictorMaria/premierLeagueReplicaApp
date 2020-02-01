@@ -3,10 +3,18 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import User from '../models/User';
 import Team from '../models/Team';
+import client from '../helpers/redis';
  
 dotenv.config();
 const db = process.env.mongoURITest;
  
+const wipeRedisDb = async () => {
+    await client.flushall((error) => {
+        if (error) throw new Error(error);
+        console.log('Data cache has been cleared');
+      });
+}
+
 const refreshDb = async () => {
   try {
     await mongoose.connect(db, {
@@ -20,6 +28,7 @@ const refreshDb = async () => {
     console.log('User collection deleted');
     await Team.deleteMany({});
     console.log('Team collection deleted');
+    await wipeRedisDb();
     process.exit(0);
   } catch (err) {
     console.error(err.message);
