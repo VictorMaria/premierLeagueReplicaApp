@@ -23,6 +23,7 @@ const {
 
 let userToken;
 let adminToken;
+let fixtureIdToFetch;
 const ApiPrefix = '/api/v1';
 
 
@@ -130,6 +131,7 @@ beforeAll(async () => {
               .post(`${ApiPrefix}/fixtures`)
               .send(firstFixture)
               .set('Authorization', `Bearer ${adminToken}`)
+              fixtureIdToFetch = res.body.Fixture.id;
             expect(res.statusCode).toEqual(201);
             expect(res.body.Fixture.homeTeam.name).toEqual(firstFixture.homeTeam.toLowerCase());
             expect(res.body.Fixture.awayTeam.name).toEqual(firstFixture.awayTeam.toLowerCase());
@@ -175,13 +177,29 @@ beforeAll(async () => {
               expect(res.body.errors.message).toEqual('User not authorized');
             done();
           });
-          it('should return success when admin enters valid and complete details', async (done) => {
+          it('should return a fixture requested by a user', async (done) => {
+            const res = await request(app)
+              .get(`${ApiPrefix}/fixtures/${fixtureIdToFetch}`)
+              .set('Authorization', `Bearer ${userToken}`)
+              expect(res.statusCode).toEqual(200);
+            done();
+          });
+          it('should return success when admin edits with valid and complete details', async (done) => {
             const res = await request(app)
               .patch(`${ApiPrefix}/fixtures/${fixtureId}`)
               .send(fixtureToEdit)
               .set('Authorization', `Bearer ${adminToken}`)
             expect(res.statusCode).toEqual(200);
             expect(res.body.Fixture).toHaveProperty('updatedAt');
+            done();
+          });
+          it('should return a fixture requested by an admin with details of added and updated at', async (done) => {
+            const res = await request(app)
+              .get(`${ApiPrefix}/fixtures/${fixtureId}/admin`)
+              .set('Authorization', `Bearer ${adminToken}`)
+              expect(res.statusCode).toEqual(200);
+              expect(res.body.Fixture).toHaveProperty('addedAt');
+              expect(res.body.Fixture).toHaveProperty('updatedAt');
             done();
           });
     })    
