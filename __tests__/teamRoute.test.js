@@ -10,12 +10,14 @@ const {
         missingWebsite,
         secondCompleteTeamDetails,
         completeTeamDetails,
+        thirdCompleteTeamDetails
     } = mockTeams;
 
 const { correctDetails } = mockAdmins;
 
 let userToken
 let adminToken;
+let teamId;
 const ApiPrefix = '/api/v1'
 
 beforeAll(async () => {
@@ -120,6 +122,7 @@ describe('Add Teams', () => {
           .post(`${ApiPrefix}/teams`)
           .send(secondCompleteTeamDetails)
           .set('Authorization', `Bearer ${adminToken}`)
+          teamId = res.body.Team.id;
         expect(res.statusCode).toEqual(201);
         expect(res.body.Team.teamName).toEqual((secondCompleteTeamDetails.teamName).toLocaleLowerCase());
         expect(res.body.Team.manager).toEqual(secondCompleteTeamDetails.manager);
@@ -150,6 +153,30 @@ describe('Add Teams', () => {
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('TeamsCached');
         expect(res.body.TeamsCached).toHaveLength(2);
+        done();
+      });
+      it('should return an error for an invalid team id', async (done) => {
+        const res = await request(app)
+          .get(`${ApiPrefix}/teams/5e3523139980fe1ef1ee207fyy`)
+          .set('Authorization', `Bearer ${userToken}`)
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.errors.id).toEqual('id is not valid');
+        done();
+      });
+      it('should return result upon fetching a single team', async (done) => {
+        const res = await request(app)
+          .get(`${ApiPrefix}/teams/${teamId}`)
+          .set('Authorization', `Bearer ${userToken}`)
+        expect(res.statusCode).toEqual(200);  
+        expect(res.body.Team.id).toEqual(teamId);
+        done();
+      });
+      it('should return a 404 for a non existing team', async (done) => {
+        const res = await request(app)
+          .get(`${ApiPrefix}/teams/5e3523139980fe1ef1ee207f`)
+          .set('Authorization', `Bearer ${userToken}`)
+        expect(res.statusCode).toEqual(404);
+        expect(res.body.errors.message).toEqual('Team not found');
         done();
       });
 });

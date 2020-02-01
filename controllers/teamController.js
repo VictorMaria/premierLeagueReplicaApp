@@ -2,7 +2,7 @@ import Team from '../models/Team';
 import serverResponse from '../modules/serverResponse';
 import client from '../helpers/redis';
  
-const { successResponse, serverErrorResponse } = serverResponse;
+const { successResponse, serverErrorResponse, errorResponse } = serverResponse;
  
 class TeamController {
     static async addTeam (req, res) {
@@ -37,9 +37,32 @@ class TeamController {
             client.setex('teamsRedisKey', 2800, JSON.stringify(checkTeams));
                 return successResponse(res, 200, 'Teams', checkTeams);
           } catch (err) {
-              console.log(err)
             return serverErrorResponse(err, req, res);
           }
+    }
+
+    static async getTeam (req, res) {
+        const teamId = req.params.id;
+        try {
+            const checkTeam = await Team.findOne({
+                _id: teamId
+            })
+            if (!checkTeam) {
+                return errorResponse(res, 404, { message: 'Team not found' });
+            }
+        return successResponse(res, 200, 'Team', {
+            message: 'Here you go!',
+            id: checkTeam.id,
+            adminId: checkTeam.adminId,
+            teamName: checkTeam.teamName,
+            manager: checkTeam.manager,
+            stadium: checkTeam.stadium,
+            website: checkTeam.website,
+            addedAt: checkTeam.addedAt,
+          });
+        } catch (err) {
+            return serverErrorResponse(err, req, res);
+        };
     }
 };
 
