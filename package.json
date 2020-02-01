@@ -7,11 +7,11 @@
   "description": "A replica of the Premier League App. Gives you team and fixture info",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "npm run build && node dist/index.js",
-    "dev": "DEBUG=dev nodemon --exec babel-node .",
-    "test": "cross-env NODE_ENV=test npm run build && jest dist/__tests__ --testTimeout=10000 ",
-    "refreshDb": "babel-node config/refreshDb.js refreshDb",
+    "build": "rimraf ./dist/ && babel src --out-dir dist",
+    "start": "node ./dist/index.js",
+    "dev": "DEBUG=dev nodemon --exec babel-node ./src/index.js",
+    "test": "cross-env NODE_ENV=test npm run build && jest src/__tests__ --testTimeout=10000 ",
+    "refreshDb": "babel-node src/config/refreshDb.js refreshDb",
     "mainTest": "cross-env NODE_ENV=test npm run refreshDb && npm test"
   },
   "repository": {
