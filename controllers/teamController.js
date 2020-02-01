@@ -64,6 +64,36 @@ class TeamController {
             return serverErrorResponse(err, req, res);
         };
     }
+
+    static async editTeam (req, res) {
+        const teamId = req.params.id;
+        const { teamName, manager, stadium, website } = req.body;
+        try {
+            const checkTeam = await Team.findOne({
+                _id: teamId
+            })
+            if (!checkTeam) {
+                return errorResponse(res, 404, { message: 'Team not found' });
+            }
+            const updateTeam = await Team.findOneAndUpdate(
+                { _id: teamId },
+                { $set: { teamName: teamName.toLowerCase(), manager, stadium, website, updatedAt: new Date() } },
+                { new: true },
+              );
+              return successResponse(res, 200, 'Team', {
+                message: 'Team Edited!',
+                id: updateTeam.id,
+                teamName: updateTeam.teamName,
+                manager: updateTeam.manager,
+                stadium: updateTeam.stadium,
+                website: updateTeam.website,
+                addedAt: updateTeam.addedAt,
+                updatedAt: updateTeam.updatedAt,
+              });  
+        } catch (err) {
+            return serverErrorResponse(err, req, res);
+        };
+    }
 };
 
 export default TeamController;

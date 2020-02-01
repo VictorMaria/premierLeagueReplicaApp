@@ -4,7 +4,7 @@
   "description": "A replica of the Premier League App. Gives you team and fixture info",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node index.js",
+    "start": "babel-node ./index.js",
     "dev": "DEBUG=dev nodemon --exec babel-node .",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
     "refreshDb": "babel-node config/refreshDb.js refreshDb",
