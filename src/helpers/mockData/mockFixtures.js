@@ -99,6 +99,15 @@ const mockFixtures = {
         referee: 'Segun Amhed',
         city: 'Abuja',
         country: 'Nigeria',
+    },
+    fixtureToEdit: {
+        homeTeam: 'Panda FC',
+        awayTeam: 'Kano Pillars',
+        stadium: 'Panda Stadium',
+        happeningOn: '2021-01-13T12:30',
+        referee: 'Segun Amhed',
+        city: 'Abuja',
+        country: 'Nigeria',
     }
 };
 
