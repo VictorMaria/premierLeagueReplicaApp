@@ -137,8 +137,147 @@ static async getPendingFixtures (req, res) {
           });
 } catch (err) {
     return serverErrorResponse(err, req, res);
-}
-}
+        }
+    }
+static async incrementHomeTeamScore(req, res) {
+    const fixtureId = req.params.id;
+    try {
+        const checkFixture = await Fixture.findOne({ _id: fixtureId});
+        if(!checkFixture) {
+            return errorResponse(res, 404, { message: 'Fixture not found' });            }
+            const updateScore = await Fixture.findOneAndUpdate(
+                { _id: fixtureId },
+                { $inc: { 'homeTeam.score': 1 },
+                          updatedAt: new Date()  },
+                { new: true },
+              );
+            return successResponse(res, 200, 'Fixture', {
+                message: 'Score Updated!',
+                id: updateScore.id,
+                homeTeam: updateScore.homeTeam,
+                awayTeam: updateScore.awayTeam,
+                referee: updateScore.referee,
+                happeningOn: updateScore.happeningOn,
+                addedAt: updateScore.addedAt,
+                updatedAt: updateScore.updatedAt
+              });
+    } catch (err) {
+        console.log(err)
+        return serverErrorResponse(err, req, res);
+            }
+    }
+     
+static async incrementAwayTeamScore(req, res) {
+        const fixtureId = req.params.id;
+        try {
+            const checkFixture = await Fixture.findOne({ _id: fixtureId});
+              if(!checkFixture) {
+                    return errorResponse(res, 404, { message: 'Fixture not found' });
+                }
+            const updateScore = await Fixture.findOneAndUpdate(
+                    { _id: fixtureId },
+                    { $inc: { 'awayTeam.score': 1 },
+                              updatedAt: new Date() },
+                    { new: true },
+                  );
+            return successResponse(res, 200, 'Fixture', {
+                    message: 'Score Updated!',
+                    id: updateScore.id,
+                    homeTeam: updateScore.homeTeam,
+                    awayTeam: updateScore.awayTeam,
+                    referee: updateScore.referee,
+                    happeningOn: updateScore.happeningOn,
+                    addedAt: updateScore.addedAt,
+                    updatedAt: updateScore.updatedAt
+                  });
+        } catch (err) {
+            console.log(err)
+            return serverErrorResponse(err, req, res);
+        }
+} 
+     
+static async decrementHomeTeamScore(req, res) {
+    const fixtureId = req.params.id;
+    try {
+        const checkFixture = await Fixture.findOne({ _id: fixtureId});
+            if(!checkFixture) {
+                return errorResponse(res, 404, { message: 'Fixture not found' });
+            }
+            const scoreIsZero = await Fixture.findOne({ _id: fixtureId, 'homeTeam.score': { $lt: 1 } })
+           if (scoreIsZero) {
+                return successResponse(res, 200, 'Fixture', {
+                    message: 'Home Team\'s Score cannot be decreased below 0!',
+                    id: scoreIsZero.id,
+                    homeTeam: scoreIsZero.homeTeam,
+                    awayTeam: scoreIsZero.awayTeam,
+                    referee: scoreIsZero.referee,
+                    happeningOn: scoreIsZero.happeningOn,
+                    addedAt: scoreIsZero.addedAt,
+                    updatedAt: scoreIsZero.updatedAt
+                 });
+            }
+        const updateScore = await Fixture.findOneAndUpdate(
+                { _id: fixtureId },
+                { $inc: { 'homeTeam.score': -1 },
+                  updatedAt: new Date()  },
+                { new: true },
+                );
+        return successResponse(res, 200, 'Fixture', {
+                message: 'Score Updated!',
+                id: updateScore.id,
+                homeTeam: updateScore.homeTeam,
+                awayTeam: updateScore.awayTeam,
+                referee: updateScore.referee,
+                happeningOn: updateScore.happeningOn,
+                addedAt: updateScore.addedAt,
+                updatedAt: updateScore.updatedAt
+            });
+        } catch (err) {
+            return serverErrorResponse(err, req, res);
+    }
+    }
+static async decrementAwayTeamScore(req, res) {
+    const fixtureId = req.params.id;
+        try {
+            const checkFixture = await Fixture.findOne({ _id: fixtureId});
+            if(!checkFixture) {
+                return errorResponse(res, 404, { message: 'Fixture not found' });
+            }
+            const scoreIsZero = await Fixture.findOne({ _id: fixtureId, 'awayTeam.score': { $lt: 1 } })
+            if (scoreIsZero) {
+                return successResponse(res, 200, 'Fixture', {
+                    message: 'Away Team\'s Score cannot be decreased below 0!',
+                    id: scoreIsZero.id,
+                    homeTeam: scoreIsZero.homeTeam,
+                    awayTeam: scoreIsZero.awayTeam,
+                    referee: scoreIsZero.referee,
+                    happeningOn: scoreIsZero.happeningOn,
+                    addedAt: scoreIsZero.addedAt,
+                    updatedAt: scoreIsZero.updatedAt
+                });
+            }
+            const updateScore = await Fixture.findOneAndUpdate(
+                    { _id: fixtureId },
+                    { $inc: { 'awayTeam.score': -1 },
+                          updatedAt: new Date()  },
+                     { new: true },
+                  );
+                return successResponse(res, 200, 'Fixture', {
+                    message: 'Score Updated!',
+                    id: updateScore.id,
+                    homeTeam: updateScore.homeTeam,
+                    awayTeam: updateScore.awayTeam,
+                    referee: updateScore.referee,
+                    happeningOn: updateScore.happeningOn,
+                    addedAt: updateScore.addedAt,
+                    updatedAt: updateScore.updatedAt
+                });
+        } catch (err) {
+            console.log(err)
+            return serverErrorResponse(err, req, res);
+            }
+    } 
+               
            
 }
  
