@@ -8,8 +8,8 @@ import client from '../helpers/redis';
 dotenv.config();
 const db = process.env.mongoURITest;
  
-const wipeRedisDb = async () => {
-    await client.flushall((error) => {
+const wipeRedisDb = () => {
+    client.flushdb((error) => {
         if (error) throw new Error(error);
         console.log('Data cache has been cleared');
       });
@@ -28,7 +28,7 @@ const refreshDb = async () => {
     console.log('User collection deleted');
     await Team.deleteMany({});
     console.log('Team collection deleted');
-    await wipeRedisDb();
+    wipeRedisDb();
     process.exit(0);
   } catch (err) {
     console.error(err.message);

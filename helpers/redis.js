@@ -1,6 +1,23 @@
 import redis from 'redis';
-const REDIS_PORT = process.env.PORT || 6379;
-const client = redis.createClient(REDIS_PORT);
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const { REDISCLOUD_URL, REDISCLOUD_URL_TEST } = process.env;
+
+const selectUrl = () => {
+    if(process.env.NODE_ENV === 'test'){
+        return REDISCLOUD_URL_TEST
+    } else {
+        return REDISCLOUD_URL
+    }
+}
+
+const url = selectUrl();
+
+const client = redis.createClient(url);
+
+
  
 client.on('error', (err) => {
     console.log(`Error ${err}`)

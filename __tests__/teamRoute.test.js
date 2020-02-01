@@ -141,8 +141,6 @@ describe('Add Teams', () => {
           .get(`${ApiPrefix}/teams`)
           .set('Authorization', `Bearer ${userToken}`)
         expect(res.statusCode).toEqual(200);
-        expect(res.body).toHaveProperty('Teams');
-        expect(res.body.Teams).toHaveLength(2);
         done();
       });
       it('should return result from cach on calling getAllTeams a second time', async (done) => {
