@@ -1,4 +1,5 @@
 import Team from '../models/Team';
+import Fixture from '../models/Fixture';
 import serverResponse from '../modules/serverResponse';
 import client from '../helpers/redis';
  
@@ -93,6 +94,23 @@ class TeamController {
         } catch (err) {
             return serverErrorResponse(err, req, res);
         };
+    }
+    static async search(req, res) {
+        const keyword = req.query.keyword.toLowerCase();
+        const wordRedisKey = `${keyword}RedisKey`;
+        try {
+           const results = await Team.find( { teamName: keyword }, { addedAt: 0, updatedAt: 0 } );
+           const moreResults = await Fixture.find(
+               { $or: [ { 'homeTeam.name': keyword }, { 'awayTeam.name': keyword } ] },
+               { addedAt: 0, updatedAt: 0 }
+               );
+               const allResults = results.concat(moreResults)
+               client.setex(wordRedisKey, 2800, JSON.stringify(allResults));    
+          return successResponse(res, 200, `Search results for ${keyword}`, allResults);
+        } catch(err) {
+            console.log(err)
+            return serverErrorResponse(err, req, res);
+        }
     }
 };
 
