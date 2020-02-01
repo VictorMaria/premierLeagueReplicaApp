@@ -33,6 +33,51 @@ class FixtureController {
            return serverErrorResponse(err, req, res);
     }
  }
+
+ static async getFixture(req, res) {
+    const fixtureId = req.params.id;
+    try {
+        const checkFixture = await Fixture.findOne({ _id: fixtureId});
+        if(!checkFixture) {
+            return errorResponse(res, 404, { message: 'Fixture not found' });
+        }
+        return successResponse(res, 200, 'Fixture', {
+            message: 'Here you go!',
+            id: checkFixture.id,
+            homeTeam: checkFixture.homeTeam,
+            awayTeam: checkFixture.awayTeam,
+            venue: checkFixture.venue,
+            referee: checkFixture.referee,
+            happeningOn: checkFixture.happeningOn,
+        })
+    } catch(err) {
+        console.log(err)
+        return serverErrorResponse(err, req, res);
+    }
+}
+
+static async getFixtureForAdmin(req, res) {
+    const fixtureId = req.params.id;
+    try {
+        const checkFixture = await Fixture.findOne({ _id: fixtureId});
+        if(!checkFixture) {
+            return errorResponse(res, 404, { message: 'Fixture not found' });
+        }
+        return successResponse(res, 200, 'Fixture', {
+            message: 'Here you go!',
+            id: checkFixture.id,
+            homeTeam: checkFixture.homeTeam,
+            awayTeam: checkFixture.awayTeam,
+            venue: checkFixture.venue,
+            referee: checkFixture.referee,
+            happeningOn: checkFixture.happeningOn,
+            addedAt: checkFixture.addedAt,
+            updatedAt: checkFixture.updatedAt,
+        })
+    } catch(err) {
+        return serverErrorResponse(err, req, res);
+    }
+}
  static async editFixture(req, res) {
     const fixtureId = req.params.id;
     const { homeTeam, awayTeam, stadium, city, country, referee, happeningOn } = req.body;
