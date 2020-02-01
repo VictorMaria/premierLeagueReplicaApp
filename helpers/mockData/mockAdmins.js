@@ -56,6 +56,13 @@ const mockAdmins = {
         password: password,
         confirmPassword: password,
     },
+    newAdmin: {
+        firstName: 'Kari',
+        lastName: 'Kamali',
+        email: 'kari.kamali@outlook.com',
+        password: password,
+        confirmPassword: password,
+    },
     wrongSignInEmail: {
         email: 'johnny.kamali@outlook.com',
         password: password,
