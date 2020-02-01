@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import User from '../models/User';
 import Team from '../models/Team';
+import Fixture from '../models/Fixture';
 import client from '../helpers/redis';
  
 dotenv.config();
@@ -28,6 +29,8 @@ const refreshDb = async () => {
     console.log('User collection deleted');
     await Team.deleteMany({});
     console.log('Team collection deleted');
+    await Fixture.deleteMany({});
+    console.log('Fixture Collection deleted');
     wipeRedisDb();
     process.exit(0);
   } catch (err) {
