@@ -1,6 +1,9 @@
 {
   "name": "premierleaguereplicaapp",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.13.0"
+  },
   "description": "A replica of the Premier League App. Gives you team and fixture info",
   "main": "index.js",
   "scripts": {
