@@ -12,7 +12,8 @@
     "dev": "DEBUG=dev nodemon --exec babel-node ./src/index.js",
     "test": "cross-env NODE_ENV=test npm run build && jest src/__tests__ --testTimeout=10000 ",
     "refreshDb": "babel-node src/config/refreshDb.js refreshDb",
-    "mainTest": "cross-env NODE_ENV=test npm run refreshDb && npm test"
+    "mainTest": "cross-env NODE_ENV=test npm run refreshDb && npm test",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
