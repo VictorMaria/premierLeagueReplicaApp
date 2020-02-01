@@ -31,6 +31,12 @@ const mockTeams = {
         stadium: 'kiwi stadium',
         website: 'www.kiwistadium.com'
     },
+    thirdCompleteTeamDetails: {
+        teamName: 'Panda FC',
+        manager: 'Joe',
+        stadium: 'Panda stadium',
+        website: 'www.pandastadium.com'
+    },
 };
 
 export default mockTeams;
