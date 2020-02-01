@@ -37,6 +37,12 @@ const mockTeams = {
         stadium: 'Panda stadium',
         website: 'www.pandastadium.com'
     },
+    teamToEdit: {
+        teamName: 'Pandora FC',
+        manager: 'Joel',
+        stadium: 'Pandora stadium',
+        website: 'www.pandorastadium.com'
+    },
 };
 
 export default mockTeams;

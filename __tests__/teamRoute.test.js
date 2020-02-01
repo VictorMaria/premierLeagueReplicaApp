@@ -10,7 +10,8 @@ const {
         missingWebsite,
         secondCompleteTeamDetails,
         completeTeamDetails,
-        thirdCompleteTeamDetails
+        thirdCompleteTeamDetails,
+        teamToEdit,
     } = mockTeams;
 
 const { correctDetails } = mockAdmins;
@@ -117,7 +118,7 @@ describe('Add Teams', () => {
         expect(res.body.Team.website).toEqual(completeTeamDetails.website);
         done();
       });
-      it('should return add team successfully if second details are correct', async (done) => {
+      it('should add team successfully if second details are correct', async (done) => {
         const res = await request(app)
           .post(`${ApiPrefix}/teams`)
           .send(secondCompleteTeamDetails)
@@ -177,6 +178,19 @@ describe('Add Teams', () => {
           .set('Authorization', `Bearer ${userToken}`)
         expect(res.statusCode).toEqual(404);
         expect(res.body.errors.message).toEqual('Team not found');
+        done();
+      });
+      it('should edit team successfully if details are correct', async (done) => {
+        const res = await request(app)
+          .patch(`${ApiPrefix}/teams/${teamId}`)
+          .send(teamToEdit)
+          .set('Authorization', `Bearer ${adminToken}`)
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.Team.teamName).toEqual((teamToEdit.teamName).toLocaleLowerCase());
+        expect(res.body.Team.manager).toEqual(teamToEdit.manager);
+        expect(res.body.Team.stadium).toEqual(teamToEdit.stadium);
+        expect(res.body.Team.website).toEqual(teamToEdit.website);
+        expect(res.body.Team).toHaveProperty('updatedAt');
         done();
       });
 });
