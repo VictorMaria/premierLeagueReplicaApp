@@ -17,6 +17,7 @@ const {
     firstFixture,
     secondFixture,
     thirdFixture,
+    fixtureToEdit,
 } = mockFixtures;
 
 
@@ -134,6 +135,15 @@ beforeAll(async () => {
             expect(res.body.Fixture.awayTeam.name).toEqual(firstFixture.awayTeam.toLowerCase());
             done();
           });
+          it('should return an error if a user attempts to add a fixture', async (done) => {
+            const res = await request(app)
+              .post(`${ApiPrefix}/fixtures`)
+              .send(secondFixture)
+              .set('Authorization', `Bearer ${userToken}`)
+              expect(res.statusCode).toEqual(403);
+              expect(res.body.errors.message).toEqual('User not authorized');
+            done();
+          });
           it('should return success when admin enters valid and complete details', async (done) => {
             const res = await request(app)
               .post(`${ApiPrefix}/fixtures`)
@@ -144,14 +154,34 @@ beforeAll(async () => {
             expect(res.body.Fixture.awayTeam.name).toEqual(secondFixture.awayTeam.toLowerCase());
             done();
           });
+          let fixtureId;
           it('should return success when admin enters valid and complete details', async (done) => {
             const res = await request(app)
               .post(`${ApiPrefix}/fixtures`)
               .send(thirdFixture)
               .set('Authorization', `Bearer ${adminToken}`)
+              fixtureId = res.body.Fixture.id;
             expect(res.statusCode).toEqual(201);
             expect(res.body.Fixture.homeTeam.name).toEqual(thirdFixture.homeTeam.toLowerCase());
             expect(res.body.Fixture.awayTeam.name).toEqual(thirdFixture.awayTeam.toLowerCase());
+            done();
+          });
+          it('should return an error if a user attempts to edit a fixture', async (done) => {
+            const res = await request(app)
+              .patch(`${ApiPrefix}/fixtures/${fixtureId}`)
+              .send(fixtureToEdit)
+              .set('Authorization', `Bearer ${userToken}`)
+              expect(res.statusCode).toEqual(403);
+              expect(res.body.errors.message).toEqual('User not authorized');
+            done();
+          });
+          it('should return success when admin enters valid and complete details', async (done) => {
+            const res = await request(app)
+              .patch(`${ApiPrefix}/fixtures/${fixtureId}`)
+              .send(fixtureToEdit)
+              .set('Authorization', `Bearer ${adminToken}`)
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.Fixture).toHaveProperty('updatedAt');
             done();
           });
     })    
