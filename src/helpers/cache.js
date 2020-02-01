@@ -26,7 +26,7 @@ class Cache {
         })
     }
  
-    static getCachedCompeletedFixtures(req, res, next) {
+    static getCachedCompletedFixtures(req, res, next) {
         client.get('completedFixturesRedisKey', (err, result) => {
             if(err) throw err;
             if(result) {

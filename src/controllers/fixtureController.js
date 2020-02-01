@@ -1,6 +1,7 @@
 import Fixture from '../models/Fixture';
 import moment from 'moment';
 import serverResponse from '../modules/serverResponse';
+import client from '../helpers/redis';
  
 const { successResponse, serverErrorResponse, errorResponse } = serverResponse;
  
@@ -75,6 +76,18 @@ static async getFixtureForAdmin(req, res) {
             updatedAt: checkFixture.updatedAt,
         })
     } catch(err) {
+        return serverErrorResponse(err, req, res);
+    }
+}
+
+static async getCompletedFixtures (req, res) {
+    try {
+        const completedFixtures = await Fixture.find({
+            happeningOn: { $lt: new Date() } }).sort({ happeningOn: 1 });
+            client.setex('completedFixturesRedisKey', 2800, JSON.stringify(completedFixtures));
+        return successResponse(res, 200, 'CompletedFixtures', completedFixtures);
+    } catch(err) {
+        console.log(err)
         return serverErrorResponse(err, req, res);
     }
 }
