@@ -91,6 +91,19 @@ static async getCompletedFixtures (req, res) {
         return serverErrorResponse(err, req, res);
     }
 }
+
+static async getPendingFixtures (req, res) {
+    try {
+        const pendingFixtures = await Fixture.find({
+            happeningOn: { $gt: new Date() } }).sort({ happeningOn: 1 });
+            client.setex('pendingFixturesRedisKey', 2800, JSON.stringify(pendingFixtures))
+        return successResponse(res, 200, 'Pending Fixtures', pendingFixtures);
+    } catch(err) {
+        console.log(err)
+        return serverErrorResponse(err, req, res);
+    }
+}
+
  static async editFixture(req, res) {
     const fixtureId = req.params.id;
     const { homeTeam, awayTeam, stadium, city, country, referee, happeningOn } = req.body;

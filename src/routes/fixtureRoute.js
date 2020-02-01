@@ -10,13 +10,15 @@ const { addFixture,
         getFixtureForAdmin,
         editFixture,
         getCompletedFixtures,
+        getPendingFixtures,
     } = FixtureController;
 const { verifyToken, verifyAdmin } = Authentication;
-const { getCachedCompletedFixtures } = Cache;
+const { getCachedCompletedFixtures, getCachedPendingFixtures } = Cache;
 const router = Router();
 
 router.post('/', verifyToken, verifyAdmin, validate.fixture, addFixture);
-router.get('/completed', verifyToken, rateLimiter, getCachedCompletedFixtures, getCompletedFixtures)
+router.get('/completed', verifyToken, rateLimiter, getCachedCompletedFixtures, getCompletedFixtures);
+router.get('/pending', verifyToken, rateLimiter, getCachedPendingFixtures, getPendingFixtures);
 router.get('/:id', verifyToken, validate.validateId, getFixture);
 router.get('/:id/admin', verifyToken, verifyAdmin, validate.validateId, getFixtureForAdmin);
 router.patch('/:id', verifyToken, verifyAdmin, validate.validateId, validate.fixture, editFixture);
