@@ -180,6 +180,13 @@ describe('Add Teams', () => {
         expect(res.body.errors.message).toEqual('Team not found');
         done();
       });
+      it('should return details of a team and fixtures', async (done) => {
+        const res = await request(app)
+          .get(`${ApiPrefix}/teams/search?keyword=kiwi fc`)
+          .set('Authorization', `Bearer ${userToken}`)
+        expect(res.statusCode).toEqual(200);
+        done();
+      });
       it('should edit team successfully if details are correct', async (done) => {
         const res = await request(app)
           .patch(`${ApiPrefix}/teams/${teamId}`)
