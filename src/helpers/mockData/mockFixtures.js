@@ -86,7 +86,7 @@ const mockFixtures = {
         homeTeam: 'Kiwi FC',
         awayTeam: 'Sharks',
         stadium: 'Kiwi Arena',
-        happeningOn: '2020-01-14T12:30',
+        happeningOn: '2020-12-14T12:30',
         referee: 'Sambo',
         city: 'Kiwi City',
         country: 'Kiwi Land',

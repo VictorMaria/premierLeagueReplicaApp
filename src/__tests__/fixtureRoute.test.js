@@ -202,4 +202,11 @@ beforeAll(async () => {
               expect(res.body.Fixture).toHaveProperty('updatedAt');
             done();
           });
+          it('should return completed fixtures', async (done) => {
+            const res = await request(app)
+              .get(`${ApiPrefix}/fixtures/completed`)
+              .set('Authorization', `Bearer ${userToken}`)
+              expect(res.statusCode).toEqual(200);
+            done();
+          });
     })    
