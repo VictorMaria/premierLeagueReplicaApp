@@ -108,6 +108,15 @@ const mockFixtures = {
         referee: 'Segun Amhed',
         city: 'Abuja',
         country: 'Nigeria',
+    },
+    finalFixture: {
+        homeTeam: 'Owls FC',
+        awayTeam: 'Crows FC',
+        stadium: 'Owl City',
+        happeningOn: '2020-02-04T12:30',
+        referee: 'Robinson',
+        city: 'Abuja',
+        country: 'Nigeria', 
     }
 };
 

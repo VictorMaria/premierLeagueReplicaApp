@@ -5,13 +5,19 @@ import validate from '../middlewares/fixtureValidation';
 import Cache from '../helpers/cache';
 import rateLimiter from '../middlewares/rateLimiter';
 
-const { addFixture,
+const {
+        addFixture,
         getFixture,
         getFixtureForAdmin,
         editFixture,
         getCompletedFixtures,
         getPendingFixtures,
-    } = FixtureController;
+        incrementHomeTeamScore,
+        incrementAwayTeamScore,
+        decrementHomeTeamScore,
+        decrementAwayTeamScore,
+      } = FixtureController;
+
 const { verifyToken, verifyAdmin } = Authentication;
 const { getCachedCompletedFixtures, getCachedPendingFixtures } = Cache;
 const router = Router();
@@ -22,5 +28,9 @@ router.get('/pending', verifyToken, rateLimiter, getCachedPendingFixtures, getPe
 router.get('/:id', verifyToken, validate.validateId, getFixture);
 router.get('/:id/admin', verifyToken, verifyAdmin, validate.validateId, getFixtureForAdmin);
 router.patch('/:id', verifyToken, verifyAdmin, validate.validateId, validate.fixture, editFixture);
+router.patch('/:id/hometeam/inc', verifyToken, verifyAdmin, validate.validateId, incrementHomeTeamScore);
+router.patch('/:id/awayTeam/inc', verifyToken, verifyAdmin, validate.validateId, incrementAwayTeamScore);
+router.patch('/:id/hometeam/dcr', verifyToken, verifyAdmin, validate.validateId, decrementHomeTeamScore);
+router.patch('/:id/awayteam/dcr', verifyToken, verifyAdmin, validate.validateId, decrementAwayTeamScore);
 
 export default router;
