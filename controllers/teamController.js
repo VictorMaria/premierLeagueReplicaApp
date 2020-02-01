@@ -1,5 +1,6 @@
 import Team from '../models/Team';
 import serverResponse from '../modules/serverResponse';
+import client from '../helpers/redis';
  
 const { successResponse, serverErrorResponse } = serverResponse;
  
@@ -29,6 +30,16 @@ class TeamController {
         } catch (err) {
             return serverErrorResponse(err, req, res);
         };
+    }
+    static async getAllTeams (req, res) {
+        try {
+            const checkTeams = await Team.find();
+            client.setex('teamsRedisKey', 2800, JSON.stringify(checkTeams));
+                return successResponse(res, 200, 'Teams', checkTeams);
+          } catch (err) {
+              console.log(err)
+            return serverErrorResponse(err, req, res);
+          }
     }
 };
 

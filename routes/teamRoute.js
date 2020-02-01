@@ -3,12 +3,16 @@ import teamController from '../controllers/teamController';
 import Authentication from '../middlewares/authentication';
 import validate from '../middlewares/teamValidation';
 import checkTeam from '../middlewares/checkTeam';
+import Cache from '../helpers/cache';
+import rateLimiter from '../middlewares/rateLimiter';
 
-const { addTeam } = teamController;
+const { addTeam, getAllTeams } = teamController;
 const { verifyToken, verifyAdmin } = Authentication;
+const { getCachedTeams } = Cache;
 
 const router = Router();
 
-router.post('/', verifyToken, verifyAdmin, validate.newTeam, checkTeam, addTeam)
+router.post('/', verifyToken, verifyAdmin, validate.newTeam, checkTeam, addTeam);
+router.get('/', verifyToken, rateLimiter, getCachedTeams, getAllTeams);
 
 export default router;

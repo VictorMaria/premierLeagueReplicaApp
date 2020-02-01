@@ -1,0 +1,11 @@
+{
+    "mongoURI": {
+        "required": true
+    },
+    "SECRET": {
+        "required": true
+    },
+    "password": {
+        "required": true
+    }
+}
