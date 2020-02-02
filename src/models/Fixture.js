@@ -46,6 +46,9 @@ const FixtureSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  fixtureLink: {
+    type: String
+  },
   idempotencyKey: {
     type: String,
     required: true,

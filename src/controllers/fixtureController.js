@@ -1,7 +1,12 @@
+import dotenv from 'dotenv';
 import Fixture from '../models/Fixture';
 import moment from 'moment';
 import serverResponse from '../modules/serverResponse';
 import client from '../helpers/redis';
+
+dotenv.config();
+
+const { host } = process.env;
  
 const { successResponse, serverErrorResponse, errorResponse } = serverResponse;
  
@@ -66,11 +71,49 @@ class FixtureController {
             happeningOn: checkFixture.happeningOn,
         })
     } catch(err) {
-        console.log(err)
         return serverErrorResponse(err, req, res);
     }
 }
 
+static async generateFixtureLink(req, res) {
+    const fixtureId = req.params.id;
+    try {
+        const checkFixture = await Fixture.findOne({ _id: fixtureId});
+        if(!checkFixture) {
+            return errorResponse(res, 404, { message: 'Fixture not found' });
+        }
+        if(!checkFixture.fixtureLink) {
+            const fixtureURL = `${host}/${Date.now()}`;
+            const updateFixture = await Fixture.findOneAndUpdate(
+                { _id: fixtureId },
+                { $set: { fixtureLink: fixtureURL,
+                          updatedAt: new Date() } },
+                { new: true },
+              );
+              return successResponse(res, 200, 'Fixture', {
+                message: 'Fixture link generated!',
+                id: updateFixture.id,
+                homeTeam: updateFixture.homeTeam,
+                awayTeam: updateFixture.awayTeam,
+                fixtureLink: updateFixture.fixtureLink,
+                happeningOn: updateFixture.happeningOn,
+                updatedAt: updateFixture.updatedAt,
+              });  
+        }
+        return successResponse(res, 200, 'Fixture', {
+            message: 'You already generated a link',
+            id: checkFixture.id,
+            homeTeam: checkFixture.homeTeam,
+            awayTeam: checkFixture.awayTeam,
+            fixtureLink: checkFixture.fixtureLink,
+            happeningOn: checkFixture.happeningOn,
+            updatedAt: checkFixture.updatedAt,
+        });
+    } catch(err) {
+        console.log(err)
+        return serverErrorResponse(err, req, res);
+    }
+}
 static async getFixtureForAdmin(req, res) {
     const fixtureId = req.params.id;
     try {
@@ -101,7 +144,6 @@ static async getCompletedFixtures (req, res) {
             client.setex('completedFixturesRedisKey', 2800, JSON.stringify(completedFixtures));
         return successResponse(res, 200, 'CompletedFixtures', completedFixtures);
     } catch(err) {
-        console.log(err)
         return serverErrorResponse(err, req, res);
     }
 }
@@ -113,7 +155,6 @@ static async getPendingFixtures (req, res) {
             client.setex('pendingFixturesRedisKey', 2800, JSON.stringify(pendingFixtures))
         return successResponse(res, 200, 'Pending Fixtures', pendingFixtures);
     } catch(err) {
-        console.log(err)
         return serverErrorResponse(err, req, res);
     }
 }
@@ -176,7 +217,6 @@ static async incrementHomeTeamScore(req, res) {
                 updatedAt: updateScore.updatedAt
               });
     } catch (err) {
-        console.log(err)
         return serverErrorResponse(err, req, res);
             }
     }
@@ -205,7 +245,6 @@ static async incrementAwayTeamScore(req, res) {
                     updatedAt: updateScore.updatedAt
                   });
         } catch (err) {
-            console.log(err)
             return serverErrorResponse(err, req, res);
         }
 } 
@@ -287,7 +326,6 @@ static async decrementAwayTeamScore(req, res) {
                     updatedAt: updateScore.updatedAt
                 });
         } catch (err) {
-            console.log(err)
             return serverErrorResponse(err, req, res);
             }
     } 

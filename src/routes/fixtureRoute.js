@@ -16,6 +16,7 @@ const {
         incrementAwayTeamScore,
         decrementHomeTeamScore,
         decrementAwayTeamScore,
+        generateFixtureLink,
       } = FixtureController;
 
 const { verifyToken, verifyAdmin } = Authentication;
@@ -32,5 +33,6 @@ router.patch('/:id/hometeam/inc', verifyToken, verifyAdmin, validate.validateId,
 router.patch('/:id/awayTeam/inc', verifyToken, verifyAdmin, validate.validateId, incrementAwayTeamScore);
 router.patch('/:id/hometeam/dcr', verifyToken, verifyAdmin, validate.validateId, decrementHomeTeamScore);
 router.patch('/:id/awayteam/dcr', verifyToken, verifyAdmin, validate.validateId, decrementAwayTeamScore);
+router.patch('/:id/link', verifyToken, verifyAdmin, validate.validateId, generateFixtureLink);
 
 export default router;
