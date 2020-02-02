@@ -193,6 +193,15 @@ beforeAll(async () => {
             expect(res.body.Fixture).toHaveProperty('updatedAt');
             done();
           });
+          it('should return a unique fixture link', async (done) => {
+            const res = await request(app)
+              .patch(`${ApiPrefix}/fixtures/${fixtureId}/link`)
+              .send(fixtureToEdit)
+              .set('Authorization', `Bearer ${adminToken}`) 
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.Fixture).toHaveProperty('fixtureLink');
+            done();
+          });
           it('should return a fixture requested by an admin with details of added and updated at', async (done) => {
             const res = await request(app)
               .get(`${ApiPrefix}/fixtures/${fixtureId}/admin`)

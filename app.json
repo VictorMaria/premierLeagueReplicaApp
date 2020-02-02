@@ -10,5 +10,8 @@
     },
     "REDISCLOUD_URL": {
         "required": true
+    },
+    "host": {
+        "required": true
     }
 }
