@@ -8,7 +8,7 @@ const { successResponse, serverErrorResponse, errorResponse } = serverResponse;
 class FixtureController {
     static async addFixture(req, res) {
         const adminId = req.user.id;
-        const { homeTeam, awayTeam, stadium, city, country, referee, happeningOn } = req.body;
+        const { homeTeam, awayTeam, stadium, city, country, referee, happeningOn, idempotencyKey } = req.body;
         const newFixture = new Fixture({
            adminId,
            'homeTeam.name': homeTeam.toLowerCase(),
@@ -18,10 +18,13 @@ class FixtureController {
            'venue.country': country.toLowerCase(),
            referee,
            happeningOn: moment.utc(happeningOn),
+           idempotencyKey,
         })
         try {
-        const fixture = await newFixture.save();
-        return successResponse(res, 201, 'Fixture', {
+        const doesFixtureExist = await Fixture.findOne({ idempotencyKey });
+        if (!doesFixtureExist) {
+            const fixture = await newFixture.save();
+            return successResponse(res, 201, 'Fixture', {
             message: 'Fixture Added!',
             id: fixture.id,
             homeTeam: fixture.homeTeam,
@@ -30,6 +33,17 @@ class FixtureController {
             referee: fixture.referee,
             happeningOn: fixture.happeningOn,
         }) 
+        }
+        return successResponse(res, 200, 'Fixture', {
+            message: 'Fixture already added!',
+            id: doesFixtureExist.id,
+            homeTeam: doesFixtureExist.homeTeam,
+            awayTeam: doesFixtureExist.awayTeam,
+            venue: doesFixtureExist.venue,
+            referee: doesFixtureExist.referee,
+            happeningOn: doesFixtureExist.happeningOn,
+        }) 
+
     } catch (err){
            return serverErrorResponse(err, req, res);
     }

@@ -6,6 +6,7 @@ const mockFixtures = {
         referee: 'Kunle Amhed',
         city: 'Kano',
         country: 'Nigeria',
+        idempotencyKey: '0ecdb24b-398b-473e-a535-2b18412844ba',
     },
     missingAwayTeam: {
         homeTeam: 'Kano Pillars',
@@ -14,6 +15,7 @@ const mockFixtures = {
         referee: 'Kunle Amhed',
         city: 'Kano',
         country: 'Nigeria',
+        idempotencyKey: '0ecdb24b-398b-473e-a535-2b18412844ba',
     },
     missingStadium: {
         homeTeam: 'Kano Pillars',
@@ -22,6 +24,7 @@ const mockFixtures = {
         referee: 'Kunle Amhed',
         city: 'Kano',
         country: 'Nigeria',
+        idempotencyKey: '0ecdb24b-398b-473e-a535-2b18412844ba',
     },
     missingHappeningOn: {
         homeTeam: 'Kano Pillars',
@@ -30,6 +33,7 @@ const mockFixtures = {
         referee: 'Kunle Amhed',
         city: 'Kano',
         country: 'Nigeria',
+        idempotencyKey: '0ecdb24b-398b-473e-a535-2b18412844ba',
     },
     missingReferee: {
         homeTeam: 'Kano Pillars',
@@ -38,6 +42,7 @@ const mockFixtures = {
         happeningOn: '2019-12-13T12:30',
         city: 'Kano',
         country: 'Nigeria',
+        idempotencyKey: '0ecdb24b-398b-473e-a535-2b18412844ba',
     },
     missingCity: {
         homeTeam: 'Kano Pillars',
@@ -46,6 +51,7 @@ const mockFixtures = {
         happeningOn: '2019-12-13T12:30',
         referee: 'Kunle Amhed',
         country: 'Nigeria',
+        idempotencyKey: '0ecdb24b-398b-473e-a535-2b18412844ba',
     },
     missingCountry: {
         homeTeam: 'Kano Pillars',
@@ -54,6 +60,7 @@ const mockFixtures = {
         happeningOn: '2019-12-13T12:30',
         referee: 'Kunle Amhed',
         city: 'Kano',
+        idempotencyKey: '0ecdb24b-398b-473e-a535-2b18412844ba',
     },
     invalidDateTime: {
         homeTeam: 'Kano Pillars',
@@ -63,6 +70,7 @@ const mockFixtures = {
         referee: 'Kunle Amhed',
         city: 'Kano',
         country: 'Nigeria',
+        idempotencyKey: '0ecdb24b-398b-473e-a535-2b18412844ba',
     },
     sameTeams: {
         homeTeam: 'Kano Pillars',
@@ -72,6 +80,7 @@ const mockFixtures = {
         referee: 'Kunle Amhed',
         city: 'Kano',
         country: 'Nigeria',
+        idempotencyKey: '0ecdb24b-398b-473e-a535-2b18412844ba',
     },
     firstFixture: {
         homeTeam: 'Kano Pillars',
@@ -81,6 +90,7 @@ const mockFixtures = {
         referee: 'Kunle Amhed',
         city: 'Kano',
         country: 'Nigeria',
+        idempotencyKey: '0ecdb24b-398b-473e-a535-2b18412844ba',
     },
     secondFixture: {
         homeTeam: 'Kiwi FC',
@@ -90,6 +100,7 @@ const mockFixtures = {
         referee: 'Sambo',
         city: 'Kiwi City',
         country: 'Kiwi Land',
+        idempotencyKey: '91a21771-2c7b-4162-85dd-5f1a7a509da1',
     },
     thirdFixture: {
         homeTeam: 'Pandora FC',
@@ -99,6 +110,7 @@ const mockFixtures = {
         referee: 'Segun Amhed',
         city: 'Abuja',
         country: 'Nigeria',
+        idempotencyKey: '381295a1-dd7b-467c-936a-d2c502055273',
     },
     fixtureToEdit: {
         homeTeam: 'Panda FC',
@@ -108,6 +120,7 @@ const mockFixtures = {
         referee: 'Segun Amhed',
         city: 'Abuja',
         country: 'Nigeria',
+        idempotencyKey: 'da193184-a009-4562-b7ec-0fc76ce90702',
     },
     finalFixture: {
         homeTeam: 'Owls FC',
@@ -117,7 +130,37 @@ const mockFixtures = {
         referee: 'Robinson',
         city: 'Abuja',
         country: 'Nigeria', 
-    }
+        idempotencyKey: '31002f4c-3508-428a-90af-810fa7c71176',
+    },
+    invalidIdempotencyKey: {
+        homeTeam: 'Ravens FC',
+        awayTeam: 'Crows FC',
+        stadium: 'Nest Raven',
+        happeningOn: '2020-02-04T12:30',
+        referee: 'Robinson',
+        city: 'Abuja',
+        country: 'Nigeria',
+        idempotencyKey: 'dd2082f5-2809-4268-a54f-e4a811c0760',
+    },
+    missingIdempotencyKey: {
+        homeTeam: 'Ravens FC',
+        awayTeam: 'Crows FC',
+        stadium: 'Nest Raven',
+        happeningOn: '2020-02-04T12:30',
+        referee: 'Robinson',
+        city: 'Abuja',
+        country: 'Nigeria', 
+    },
+    oneOtherFixture: {
+        homeTeam: 'Ravens FC',
+        awayTeam: 'Crows FC',
+        stadium: 'Nest Raven',
+        happeningOn: '2020-02-04T12:30',
+        referee: 'Robinson',
+        city: 'Abuja',
+        country: 'Nigeria', 
+        idempotencyKey: 'dd2082f5-2809-4268-a54f-e4a811c07601',
+    },
 };
 
 export default mockFixtures;
