@@ -58,6 +58,13 @@ const validate = {
       .withMessage('happeningOn is required')
       .matches((/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}[T][0-9]{2}\:[0-9]{2}$/))
       .withMessage('happeningOn must follow YYYY-MM-DDTHH:MM format'),
+    check('idempotencyKey')
+      .not()
+      .isEmpty({ ignore_whitespace: true })
+      .withMessage('idempotencyKey is required')
+      .trim()
+      .isUUID()
+      .withMessage('Idempotency key must be a valid UUID'),
     (req, res, next) => {
       const errors = validationResult(req);
       const errorMessage = {};
