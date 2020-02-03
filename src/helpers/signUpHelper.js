@@ -38,7 +38,7 @@ class SignUpHelper {
         userType: user.userType,
       };
       const token = newToken(payload);
-      return successResponse(res, 201, 'user', { message: 'You have Successfully Signed Up', token });
+      return successResponse(res, 201, userType, { message: 'You have Successfully Signed Up', token });
      
 }
 }

@@ -41,7 +41,7 @@ beforeAll(async () => {
           confirmPassword: correctDetails.password
       });
       userToken = userRes.body.user.token; 
-      adminToken = adminRes.body.user.token;
+      adminToken = adminRes.body.admin.token;
     });
 describe('Add Teams', () => {
     it('should return an error for missing teamName', async (done) => {

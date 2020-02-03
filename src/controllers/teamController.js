@@ -99,12 +99,15 @@ class TeamController {
         const keyword = req.query.keyword.toLowerCase();
         const wordRedisKey = `${keyword}RedisKey`;
         try {
-           const results = await Team.find( { teamName: keyword }, { addedAt: 0, updatedAt: 0 } );
+           const result = await Team.find( { teamName: keyword }, { addedAt: 0, updatedAt: 0 } );
            const moreResults = await Fixture.find(
                { $or: [ { 'homeTeam.name': keyword }, { 'awayTeam.name': keyword } ] },
                { addedAt: 0, updatedAt: 0 }
                );
-               const allResults = results.concat(moreResults)
+               const allResults = {
+                    oneTeam: result,
+                    teamFixtures: moreResults,
+               }
                client.setex(wordRedisKey, 2800, JSON.stringify(allResults));    
           return successResponse(res, 200, `Search results for ${keyword}`, allResults);
         } catch(err) {

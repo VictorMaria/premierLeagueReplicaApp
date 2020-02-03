@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
 import '@babel/polyfill';
 import express from 'express';
 import Debug from 'debug';
 import cors from 'cors';
 import connectDb from './config/db';
 import routes from './routes/index';
-import fixtureLinkredirect from './helpers/fixtureLinkRedirect'
+import fixtureLinkredirect from './helpers/fixtureLinkRedirect';
  
 const ApiPrefix = '/api/v1';
 const debug = Debug('dev');
