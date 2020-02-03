@@ -115,6 +115,19 @@ class TeamController {
             return serverErrorResponse(err, req, res);
         }
     }
+    static async deleteTeam(req, res) {
+        const { id } = req.params;
+        try {
+          const checkTeam = await Team.findOne({ _id: id });
+          if (!checkTeam) {
+            return errorResponse(res, 404, { message: 'Team not found' });
+          }
+          await Team.deleteOne({ _id: id });
+          return successResponse(res, 200, 'team', { message: 'Team deleted!' });
+        } catch (err) {
+          return serverErrorResponse(err, req, res);
+        }
+      }
 };
 
 export default TeamController;

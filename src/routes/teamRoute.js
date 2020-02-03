@@ -6,7 +6,7 @@ import checkTeam from '../middlewares/checkTeam';
 import Cache from '../helpers/cache';
 import rateLimiter from '../middlewares/rateLimiter';
 
-const { addTeam, getAllTeams, getTeam, editTeam, search } = teamController;
+const { addTeam, getAllTeams, getTeam, editTeam, search, deleteTeam } = teamController;
 const { verifyToken, verifyAdmin } = Authentication;
 const { getCachedTeams, getCachedSearchResults } = Cache;
 
@@ -18,5 +18,6 @@ router.get('/search', getCachedSearchResults, search);
 router.get('/', verifyToken, rateLimiter, getCachedTeams, getAllTeams);
 router.get('/:id', verifyToken, validate.validateId, getTeam);
 router.patch('/:id', verifyToken, verifyAdmin, validate.validateId, editTeam);
+router.delete('/:id', verifyToken, verifyAdmin, validate.validateId, deleteTeam);
 
 export default router;
