@@ -41,7 +41,7 @@ beforeAll(async () => {
       .post(`${ApiPrefix}/admin/signup`)
       .send(newAdmin);
       userToken = userRes.body.user.token; 
-      adminToken = adminRes.body.user.token;
+      adminToken = adminRes.body.admin.token;
     });
 
     describe('Add Fixtures', () => {

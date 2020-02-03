@@ -79,9 +79,9 @@ describe('admin sign up', () => {
       const res = await request(app)
         .post(`${ApiPrefix}/admin/signup`)
         .send(correctDetails)
-        const decoded = jwtDecode(res.body.user.token);
+        const decoded = jwtDecode(res.body.admin.token);
       expect(res.statusCode).toEqual(201);
-      expect(res.body.user).toHaveProperty('token');
+      expect(res.body.admin).toHaveProperty('token');
       expect(decoded).toHaveProperty('id');
       expect(decoded.firstName).toEqual(correctDetails.firstName);
       expect(decoded.lastName).toEqual(correctDetails.lastName);
@@ -136,9 +136,9 @@ describe('Admin sign in', () => {
         const res = await request(app)
           .post(`${ApiPrefix}/admin/signin`)
           .send(correctDetails)
-          const decoded = jwtDecode(res.body.user.token);
+          const decoded = jwtDecode(res.body.admin.token);
         expect(res.statusCode).toEqual(200);
-        expect(res.body.user).toHaveProperty('token');
+        expect(res.body.admin).toHaveProperty('token');
         expect(decoded).toHaveProperty('id');
         expect(decoded.firstName).toEqual(correctDetails.firstName);
         expect(decoded.lastName).toEqual(correctDetails.lastName);

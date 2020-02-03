@@ -25,7 +25,7 @@ const {
           password: correctDetails.password,
           confirmPassword: correctDetails.password,
       })
-        adminToken = adminResponse.body.user.token;
+        adminToken = adminResponse.body.admin.token;
     const fixtureResponse = await request(app)
       .post(`${ApiPrefix}/fixtures`)
       .send(finalFixture)

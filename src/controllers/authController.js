@@ -16,7 +16,7 @@ class AuthController {
   }
   static async signIn(req, res) {
     try {
-      await signInAction(req, res)
+      await signInAction(req, res, 'user')
     } catch (err) {
       return serverErrorResponse(err, req, res);
     }

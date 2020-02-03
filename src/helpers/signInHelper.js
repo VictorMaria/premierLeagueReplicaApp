@@ -6,7 +6,7 @@ const { successResponse, serverErrorResponse } = serverResponse;
 const { newToken, comparePassword } = Auth;
  
 class SignInHelper {
- static async signInAction(req, res) {
+ static async signInAction(req, res, userType) {
     const { email, password } = req.body;
     try {
       const user = await User.findOne({ email: email.toLowerCase() });
@@ -26,7 +26,7 @@ class SignInHelper {
         userType: user.userType,
       };
       const token = newToken(payload);
-      return successResponse(res, 200, 'user', { message: 'You have Successfully Signed In', token });
+      return successResponse(res, 200, userType, { message: 'You have Successfully Signed In', token });
     } catch (err) {
       return serverErrorResponse(err, req, res);
     }

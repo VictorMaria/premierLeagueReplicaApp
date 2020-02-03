@@ -17,7 +17,7 @@ class AdminController {
     }
     static async signInAdmin(req, res) {
         try {
-          await signInAction(req, res)
+          await signInAction(req, res, 'admin')
         } catch (err) {
           return serverErrorResponse(err, req, res);
         }

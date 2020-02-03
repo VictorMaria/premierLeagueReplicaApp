@@ -26,7 +26,7 @@ const {
           password: correctDetails.password,
           confirmPassword: correctDetails.password,
       })
-        adminToken = adminResponse.body.user.token;
+        adminToken = adminResponse.body.admin.token;
 });
 
 describe('idempotency key test for preventing accidental double entry of a new fixture', () => {
