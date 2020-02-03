@@ -17,6 +17,6 @@ router.post('/', verifyToken, verifyAdmin, validate.newTeam, checkTeam, addTeam)
 router.get('/search', getCachedSearchResults, search);
 router.get('/', verifyToken, rateLimiter, getCachedTeams, getAllTeams);
 router.get('/:id', verifyToken, validate.validateId, getTeam);
-router.patch('/:id', verifyToken, validate.validateId, editTeam);
+router.patch('/:id', verifyToken, verifyAdmin, validate.validateId, editTeam);
 
 export default router;
