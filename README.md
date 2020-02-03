@@ -8,7 +8,7 @@ Premier League 360 is a replica app hosted on [Premier League Replica App](https
 # Clone Develop Branch
 git clone https://github.com/VictorMaria/premierLeagueReplicaApp.git
 
-# Navigate in the newly created
+# Navigate into the newly created folder
 cd premierLeagueReplicaApp
 
 # Run Install dependences
