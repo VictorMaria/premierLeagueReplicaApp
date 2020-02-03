@@ -329,8 +329,19 @@ static async decrementAwayTeamScore(req, res) {
             return serverErrorResponse(err, req, res);
             }
     } 
-               
-           
+    static async deleteFixture(req, res) {
+        const { id } = req.params;
+        try {
+          const checkFixture = await Fixture.findOne({ _id: id });
+          if (!checkFixture) {
+            return errorResponse(res, 404, { message: 'Fixture not found' });
+          }
+          await Fixture.deleteOne({ _id: id });
+          return successResponse(res, 200, 'fixture', { message: 'Fixture deleted!' });
+        } catch (err) {
+          return serverErrorResponse(err, req, res);
+        }
+      }             
 }
  
 export default FixtureController;

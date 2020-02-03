@@ -160,6 +160,16 @@ const mockFixtures = {
         country: 'Nigeria', 
         idempotencyKey: 'dd2082f5-2809-4268-a54f-e4a811c07601',
     },
+    fixtureToDelete: {
+        homeTeam: 'Ravens FC',
+        awayTeam: 'Crows FC',
+        stadium: 'Nest Raven',
+        happeningOn: '2019-02-04T12:30',
+        referee: 'Robinson',
+        city: 'Abuja',
+        country: 'Nigeria', 
+        idempotencyKey: 'dd2082f5-2801-4268-a54f-e4a811c07601',
+    },
 };
 
 export default mockFixtures;
