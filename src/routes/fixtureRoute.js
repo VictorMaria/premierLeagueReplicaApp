@@ -28,7 +28,7 @@ router.get('/completed', verifyToken, rateLimiter, getCachedCompletedFixtures, g
 router.get('/pending', verifyToken, rateLimiter, getCachedPendingFixtures, getPendingFixtures);
 router.get('/:id', verifyToken, validate.validateId, getFixture);
 router.get('/:id/admin', verifyToken, verifyAdmin, validate.validateId, getFixtureForAdmin);
-router.patch('/:id', verifyToken, verifyAdmin, validate.validateId, validate.fixture, editFixture);
+router.patch('/:id', verifyToken, verifyAdmin, validate.validateId, validate.editFixture, editFixture);
 router.patch('/:id/hometeam/inc', verifyToken, verifyAdmin, validate.validateId, incrementHomeTeamScore);
 router.patch('/:id/awayTeam/inc', verifyToken, verifyAdmin, validate.validateId, incrementAwayTeamScore);
 router.patch('/:id/hometeam/dcr', verifyToken, verifyAdmin, validate.validateId, decrementHomeTeamScore);
