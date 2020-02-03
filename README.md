@@ -4,6 +4,15 @@ This is a replica of the Premier League App: Get team and fixture info.
 
 Premier League 360 is a replica app hosted on [Premier League Replica App](https://plrapp.herokuapp.com/)
 
+Technologies Used
+1. Node/Express
+2. Cloud Mongo DB
+3. Redis and Redis Cloud
+4. Docker
+5. Jest (for testing)
+6. Heroku
+7. POSTMAN
+
 ```
 # Clone Develop Branch
 git clone https://github.com/VictorMaria/premierLeagueReplicaApp.git
