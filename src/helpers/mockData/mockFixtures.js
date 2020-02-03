@@ -120,7 +120,6 @@ const mockFixtures = {
         referee: 'Segun Amhed',
         city: 'Abuja',
         country: 'Nigeria',
-        idempotencyKey: 'da193184-a009-4562-b7ec-0fc76ce90702',
     },
     finalFixture: {
         homeTeam: 'Owls FC',
