@@ -110,7 +110,6 @@ static async generateFixtureLink(req, res) {
             updatedAt: checkFixture.updatedAt,
         });
     } catch(err) {
-        console.log(err)
         return serverErrorResponse(err, req, res);
     }
 }
