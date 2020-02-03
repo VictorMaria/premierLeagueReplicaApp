@@ -35,7 +35,8 @@ class TeamController {
     static async getAllTeams (req, res) {
         try {
             const checkTeams = await Team.find();
-            client.setex('teamsRedisKey', 2800, JSON.stringify(checkTeams));
+            // Refreshes cache after 1800 seconds which is equal to 30 minutes
+            client.setex('teamsRedisKey', 1800, JSON.stringify(checkTeams));
                 return successResponse(res, 200, 'Teams', checkTeams);
           } catch (err) {
             return serverErrorResponse(err, req, res);
@@ -108,7 +109,8 @@ class TeamController {
                     oneTeam: result,
                     teamFixtures: moreResults,
                }
-               client.setex(wordRedisKey, 2800, JSON.stringify(allResults));    
+               // Refreshes cache after 180 seconds which is equal to 3 minutes
+               client.setex(wordRedisKey, 180, JSON.stringify(allResults));    
           return successResponse(res, 200, `Search results for ${keyword}`, allResults);
         } catch(err) {
             return serverErrorResponse(err, req, res);
