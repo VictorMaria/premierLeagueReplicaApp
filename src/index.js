@@ -4,7 +4,8 @@ import Debug from 'debug';
 import cors from 'cors';
 import connectDb from './config/db';
 import routes from './routes/index';
-import fixtureLinkredirect from './helpers/fixtureLinkRedirect';
+import fixtureLinkRedirect from './helpers/fixtureLinkRedirect';
+import Authentication from './middlewares/authentication';
  
 const ApiPrefix = '/api/v1';
 const debug = Debug('dev');
@@ -15,9 +16,11 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(ApiPrefix, routes);
+
+const { verifyToken } = Authentication;
  
-app.get('/:id', (req, res) => {
-  fixtureLinkredirect(req, res);
+app.get('/:id', verifyToken, (req, res) => {
+  fixtureLinkRedirect(req, res);
 });
 
 app.get('/', (req, res) => {

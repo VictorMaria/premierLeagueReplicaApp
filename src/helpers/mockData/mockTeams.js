@@ -43,6 +43,12 @@ const mockTeams = {
         stadium: 'Pandora stadium',
         website: 'www.pandorastadium.com'
     },
+    teamToDelete: {
+        teamName: 'Pan FC',
+        manager: 'Joel',
+        stadium: 'Pan stadium',
+        website: 'www.pandorastadium.com'
+    },
 };
 
 export default mockTeams;

@@ -12,6 +12,7 @@ const {
         completeTeamDetails,
         thirdCompleteTeamDetails,
         teamToEdit,
+        teamToDelete,
     } = mockTeams;
 
 const { correctDetails } = mockAdmins;
@@ -19,6 +20,7 @@ const { correctDetails } = mockAdmins;
 let userToken
 let adminToken;
 let teamId;
+let teamToDeleteId;
 const ApiPrefix = '/api/v1'
 
 beforeAll(async () => {
@@ -198,6 +200,30 @@ describe('Add Teams', () => {
         expect(res.body.Team.stadium).toEqual(teamToEdit.stadium);
         expect(res.body.Team.website).toEqual(teamToEdit.website);
         expect(res.body.Team).toHaveProperty('updatedAt');
+        done();
+      });
+      it('should add another team successfully', async (done) => {
+        const res = await request(app)
+          .post(`${ApiPrefix}/teams`)
+          .send(teamToDelete)
+          .set('Authorization', `Bearer ${adminToken}`)
+          teamToDeleteId = res.body.Team.id;
+        done();
+      });
+      it('should delete a team', async (done) => {
+        const res = await request(app)
+          .delete(`${ApiPrefix}/teams/${teamToDeleteId}`)
+          .set('Authorization', `Bearer ${adminToken}`)
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.team.message).toEqual('Team deleted!');
+        done();
+      });
+      it('should return 404 to ensure teamToDelete was deleted', async (done) => {
+        const res = await request(app)
+          .delete(`${ApiPrefix}/teams/${teamToDeleteId}`)
+          .set('Authorization', `Bearer ${adminToken}`)
+        expect(res.statusCode).toEqual(404);
+        expect(res.body.errors.message).toEqual('Team not found');
         done();
       });
 });
