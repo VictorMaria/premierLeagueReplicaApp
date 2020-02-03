@@ -111,7 +111,6 @@ class TeamController {
                client.setex(wordRedisKey, 2800, JSON.stringify(allResults));    
           return successResponse(res, 200, `Search results for ${keyword}`, allResults);
         } catch(err) {
-            console.log(err)
             return serverErrorResponse(err, req, res);
         }
     }

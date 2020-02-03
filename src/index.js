@@ -37,7 +37,6 @@ app.use(
 const { verifyToken } = Authentication;
  
 app.get('/:id', verifyToken, (req, res) => {
-  console.log(req.session)
   fixtureLinkRedirect(req, res);
 });
 
