@@ -18,12 +18,14 @@ const {
     secondFixture,
     thirdFixture,
     fixtureToEdit,
-} = mockFixtures;
+    fixtureToDelete,
+   } = mockFixtures;
 
 
 let userToken;
 let adminToken;
 let fixtureIdToFetch;
+let fixtureToDeleteId;
 const ApiPrefix = '/api/v1';
 
 
@@ -223,6 +225,30 @@ beforeAll(async () => {
               .get(`${ApiPrefix}/fixtures/pending`)
               .set('Authorization', `Bearer ${userToken}`)
               expect(res.statusCode).toEqual(200);
+            done();
+          });
+          it('should add another fixture successfully', async (done) => {
+            const res = await request(app)
+              .post(`${ApiPrefix}/fixtures`)
+              .send(fixtureToDelete)
+              .set('Authorization', `Bearer ${adminToken}`)
+              fixtureToDeleteId = res.body.Fixture.id;
+            done();
+          });
+          it('should delete a fixture', async (done) => {
+            const res = await request(app)
+              .delete(`${ApiPrefix}/fixtures/${fixtureToDeleteId}`)
+              .set('Authorization', `Bearer ${adminToken}`)
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.fixture.message).toEqual('Fixture deleted!');
+            done();
+          });
+          it('should return 404 to ensure fixtureToDelete was deleted', async (done) => {
+            const res = await request(app)
+              .delete(`${ApiPrefix}/fixtures/${fixtureToDeleteId}`)
+              .set('Authorization', `Bearer ${adminToken}`)
+            expect(res.statusCode).toEqual(404);
+            expect(res.body.errors.message).toEqual('Fixture not found');
             done();
           });
     })    
