@@ -140,7 +140,8 @@ static async getCompletedFixtures (req, res) {
     try {
         const completedFixtures = await Fixture.find({
             happeningOn: { $lt: new Date() } }).sort({ happeningOn: 1 });
-            client.setex('completedFixturesRedisKey', 2800, JSON.stringify(completedFixtures));
+            // Refreshes cache after 3600 seconds which is equal to an hour
+            client.setex('completedFixturesRedisKey', 3600, JSON.stringify(completedFixtures));
         return successResponse(res, 200, 'CompletedFixtures', completedFixtures);
     } catch(err) {
         return serverErrorResponse(err, req, res);
@@ -151,7 +152,8 @@ static async getPendingFixtures (req, res) {
     try {
         const pendingFixtures = await Fixture.find({
             happeningOn: { $gt: new Date() } }).sort({ happeningOn: 1 });
-            client.setex('pendingFixturesRedisKey', 2800, JSON.stringify(pendingFixtures))
+            // Refreshes cache after 180 seconds which is equal to 3 minutes
+            client.setex('pendingFixturesRedisKey', 180, JSON.stringify(pendingFixtures))
         return successResponse(res, 200, 'Pending Fixtures', pendingFixtures);
     } catch(err) {
         return serverErrorResponse(err, req, res);
